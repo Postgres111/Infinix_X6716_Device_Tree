@@ -4,8 +4,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-
-LOCAL_PATH := device/infinix/Infinix-X6716
+#
+#LOCAL_PATH := device/infinix/Infinix_X6716
 # A/B
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -18,18 +18,51 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.0-impl \
     android.hardware.boot@1.0-service
 
-PRODUCT_PACKAGES += \
-    bootctrl.mt6768
+#PRODUCT_STATIC_BOOT_CONTROL_HAL := \
+#    bootctrl.mt6768 \
+#    libgptutils \
+#    libz \
+#    libcutils
+#
+PRODUCT_SYSTEM_DEFAULT_PROPERTIES += ro.twrp.shrink_ramdisk=true
 
-PRODUCT_STATIC_BOOT_CONTROL_HAL := \
-    bootctrl.mt6768 \
-    libgptutils \
-    libz \
-    libcutils
+PRODUCT_PACKAGES += \
+    -ssh \
+    -sshd \
+    -scp \
+    -sftp \
+    -libssh \
+    -ssh-keygen \
+    -ssh-agent \
+    -ssh-add \
+    -ssh-keyscan \
+    -busybox
 
 PRODUCT_PACKAGES += \
-    otapreopt_script \
-    cppreopts.sh \
-    update_engine \
-    update_verifier \
-    update_engine_sideload
+    -libopenaes \
+    -openaes \
+    -libcrypto \
+    -libssl \
+    -libkeystore2 \
+    -keystore2 \
+    -liblegacykeystore \
+    -liblegacycrypto \
+    -librecoverycrypto \
+    -recoverycrypto \
+    -libopenssl \
+    -libcrypto_utils \
+    -libaospcrypto \
+    -libopenaes_intermediates \
+    -libopenaes.so
+
+# Если в дереве есть keystore/keystore2, удаляем их из recovery-пакетов
+PRODUCT_PACKAGES += \
+    -keystore \
+    -libkeystore
+
+# Если есть специфичные recovery-утилиты, которые увеличивают размер/тянут crypto — вырезаем
+PRODUCT_PACKAGES += \
+    -update_engine \
+    -update_engine_sideload \
+    -update_verifier \
+    -otapreopt_script
